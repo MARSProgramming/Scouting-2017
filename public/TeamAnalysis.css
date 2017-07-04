@@ -1,0 +1,51 @@
+
+form {
+    border: 2px dotted black;
+    background-color: white;
+}
+
+h1 {
+    color: black;
+    background-color: #e01111;
+}
+
+body {
+    background-color: darkgray;
+    font-size: 1em;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+@include media-breakpoint-up(sm) {
+  h2 {
+    font-size: 16px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  h2 {
+    font-size: 28px;
+  }
+}
+
+img {
+    width: auto;
+    height: 8em;
+    visibility: visible;
+}
+
+#createdBy {
+    color: white;
+}
+
+#title {
+    color: white;
+}

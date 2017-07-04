@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+    <script src='initializeFirebase.js'></script>
+
+    <script src='AllianceAnalysis.js'></script>
+    <link rel='stylesheet' type='text/css' href='AllianceAnalysis.css' />
+    <script src='jsontree.js'></script>
+
+    <title>2614 Alliance Analysis</title>
+
+</head>
+
+<body>
+
+    <div class='row'>
+        <div class='col-sm-12'>
+            Competition
+            <select class='form-control' name='competition' id='competition' onchange='inputOtherCompetition(this.options[this.selectedIndex].value)'>
+                    <option selected>Select Competition</option>
+                    <option value='Palmetto'>Palmetto</option>
+                    <option value='Buckeye'>Buckeye</option>
+                    <option value='Other'>Other</option>
+                </select>
+            <div id='otherCompetitionInput'></div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-4'>
+            Team 1
+            <input class='form-control' type='text' pattern="\d*" id='team_1_number' placeholder='2614' min='0' max='10000' />
+        </div>
+        <div class='col-sm-4'>
+            Team 2
+            <input class='form-control' type='text' pattern="\d*" id='team_2_number' placeholder='2614' min='0' max='10000' />
+        </div>
+        <div class='col-sm-4'>
+            Team 3
+            <input class='form-control' type='text' pattern="\d*" id='team_3_number' placeholder='2614' min='0' max='10000' />
+        </div>
+        <br>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <button class='btn btn-primary btn-block' type='button' onclick='graphAlliance()'>Graph</button>
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <h2 class='lead'>Alliance</h2>
+            <canvas id="alliance_canvas"></canvas>
+        </div>
+    </div>
+    <br>
+    <div class='col-sm-1'>
+        <button class='btn btn-outline-secondary btn-block' onclick='toggle("rawData");'>JSON</button>
+        <div id='rawData'></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+form {
+    
+}
+
+h1 {
+    color: black;
+    background-color: #e01111;
+}
+h2 {
+	background-color: #9b0000;
+	font-family: 'Cantarell', sans-serif;
+}
+
+body {
+    background-color: #222;
+    font-size: 1em;
+    color: white;
+}
+.banana {
+    width: auto;
+    height: 8em;
+    visibility: visible;
+}
+
+#createdBy {
+    color: white;
+}
+
+#title {
+    color: white;
+}
+coconut {
+	color: orangered;
+}
+
+guava {
+	color: goldenrod;
+}
+
+papaya {
+	color: dodgerblue;
+}
+
+.kiwi {
+	color: white;
+}

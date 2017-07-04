@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+    font-size: 1em;
+    color: white;
+}
+
+.mars_logo {
+    width: auto;
+    height: 8em;
+    visibility: visible;
+/*
+    position: absolute;
+    left: 0px;
+*/
+}
+
+.steamworks_logo {
+    width: auto;
+    height: 8em;
+    visibility: visible;
+    position: absolute;
+    right: 0px;
+}

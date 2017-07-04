@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src='https://www.gstatic.com/firebasejs/3.6.1/firebase.js'></script>
+    <script src='initializeFirebase.js'></script>
+    <script src='ScoutingForm.js'></script>
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Cantarell" rel="stylesheet">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css' integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ' crossorigin='anonymous'>
+    <script src='https://code.jquery.com/jquery-3.1.1.slim.min.js' integrity='sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n' crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js' integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb' crossorigin='anonymous'></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn' crossorigin='anonymous'></script>
+    <link rel='stylesheet' type='text/css' href='ScoutingForm.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>2614 Scouting Form</title>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" id="thetop">
+    <nav class="navbar navbar-light navbar-toggleable-md fixed-top page-scroll" aria-haspopup="true" aria-expanded="false" role="navigation" style="background-color: #bc0000;">
+        <form class="form-inline">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+		  	</button>
+            <a class="navbar-brand page-scroll" href="#thetop">Mars Scouting</a>
+        </form>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:showHelp();">Help</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:showTimer();">Timer</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quick Jump</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: #960000;">
+                        <a class="nav-link page-scroll" href="#prehref">Pre-Match</a>
+                        <a class="nav-link page-scroll" href="#maphref">Map</a>
+                        <a class="nav-link page-scroll" href="#autonomoushref">Autonomous</a>
+                        <a class="nav-link page-scroll" href="#teleophref">Teleop</a>
+                        <a class="nav-link page-scroll" href="#robothref">Robot Ability</a>
+                        <a class="nav-link page-scroll" href="#commenthref">Comments</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    </a>
+    <br>
+    <br>
+    <br>
+    <h2 id="prehref">Pre-Match</h2>
+    <div>
+        <br>
+        <div class='prematch'>
+            <div class='container-fluid'>
+                <div class='row'>
+                    <div class='col-sm-6'>
+                        Scout Name
+                        <input type='text' class='form-control' name='scout_name' id='scout_name' placeholder='Scout Name' />
+                    </div>
+                    <div class='col-sm-3'>
+                        Scout Team
+                        <input type='text' pattern="\d*" class='form-control' name='scout_team' id='scout_team' placeholder='2614' min='1' max='10000' />
+                    </div>
+                    <div class='col-sm-3'>
+                        Competition
+                        <select class='form-control' name='competition' id='competition' onchange='inputOtherCompetition(this.options[this.selectedIndex].value)' data-toggle="tooltip" title="For practice matches, select Other and input the format competition-Practice" data-trigger="focus">
+								<option selected>Select Competition</option>
+								<option value='Palmetto'>Palmetto</option>
+								<option value='Buckeye'>Buckeye</option>
+								<option value='Other'>Other</option>
+							</select>
+                    </div>
+                </div>
+                <div id='otherCompetitionInput'></div>
+                <div class='row'>
+                    <div class='col-sm-6' data-toggle="tooltip" title="Choose the alliance the robot you are scouting is on. This will trigger the cooresponding map to appear." data-trigger="focus">
+                        Alliance
+                        <br>
+                        <div class='btn-group col-12' data-toggle='buttons'>
+                            <label class='btn btn-outline-danger col-6' onclick="changeMapRed()">
+								<input type='radio' name='alliance' id='redall' value='red'>Red Alliance
+								</label>
+                            <label class='btn btn-outline-primary col-6' onclick="changeMapBlue()">
+								<input type='radio' name='alliance' id='blueall' value='blue'>Blue Alliance
+								</label>
+                        </div>
+                    </div>
+                    <div class='col-sm-3'>
+                        Match Number
+                        <input type='text' pattern="\d*" class='form-control' name='match_number' id='match_number' placeholder='0' min='0' max='200' />
+                    </div>
+                    <div class='col-sm-3'>
+                        Team Number
+                        <input type='text' pattern="\d*" class='form-control' name='team_number' id='team_number' placeholder='0' min='0' max='9999' data-toggle="tooltip" title="Make sure you are scouting the correct team and do not scout the same robot as someone else. Each of the 6 robots in a match should have a scout recording data."
+                            data-trigger="focus" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+    <h2 id="maphref">Map</h2>
+    <div>
+        <div class='autonomous row'>
+            <div class='col-md-6'>
+                <img alt="" id="mapimage" usemap="#Map" width="100%" />
+            </div>
+            <div class='col-md-6'>
+                <h2 id="autonomoushref">Autonomous</h2>
+                <br>
+                <coconut data-toggle="tooltip" title="Reference the map and record your robot's starting location. (The map may be upside down based on your seating.)" data-trigger="focus">Start Location</coconut>
+
+                <div class="btn-group col-12" data-toggle='buttons'>
+                    <label class='btn btn-lg btn-outline-danger col-4'>
+						<input type='radio' name='starting_position' value='1'>1
+					</label>
+                    <label class='btn btn-lg btn-outline-danger col-4'>
+					<input type='radio' name='starting_position' value='2'>2
+					</label>
+                    <label class='btn btn-lg btn-outline-danger col-4'>
+					<input type='radio' name='starting_position' value='3'>3
+					</label>
+                </div>
+                <br> Gear Scoring:
+                <select class='form-control' name='auto_gear_scoring' id='auto_gear_scoring' data-toggle="tooltip" title="Record gear autonomous scoring. If autonomous runs out of time and the gear was attempted to be scored but still in possession, count as Miss in auto and count any scoring of this gear in teleop. If a gear was attempted, record the location of the attempt below based on the map."
+                    data-trigger="focus">
+						<option selected>No Attempt</option>
+						<option value='Drop'>Drop</option>
+						<option value='Miss'>Miss</option>
+						<option value='Score'>Score</option>
+					</select>
+                <div id='auto_gear_location_div'>
+                    <guava>Autonomous Gear Location:</guava>
+                    <br>
+                    <div class='btn-group col-12' data-toggle='buttons'>
+                        <label class='btn btn-lg btn-outline-warning col-4'>
+						<input type='radio' name='auto_gear_location' value='1'>Feeder
+						</label>
+                        <label class='btn btn-lg btn-outline-warning col-4'>
+						<input type='radio' name='auto_gear_location' value='2'>Center
+						</label>
+                        <label class='btn btn-lg btn-outline-warning col-4'>
+						<input type='radio' name='auto_gear_location' value='3'>Boiler
+						</label>
+                    </div>
+                </div>
+                <br> High Goals
+                <div class="input-group input-group-lg" data-toggle="tooltip" title="Approximate goals scored in auto. Remember, each robot can start with 10 balls. Each side of a hopper has 50." data-trigger="focus">
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-success" type="button" onclick="increment(1,'auto_high_goals')">+1</button>
+						</span>
+                    <span class="input-group-btn" style="width: 25%;">
+						<button class="btn btn-success" type="button" onclick="increment(10,'auto_high_goals')">+10</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='auto_high_goals' id='auto_high_goals' value=0 min='0' max='1000' />
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-danger" type="button" onclick="increment(-5,'auto_high_goals')">-5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 20%;">
+						<button class="btn btn-danger" type="button" onclick="increment(-1,'auto_high_goals')">-1</button>
+						</span>
+                </div>
+                <br>
+                <div class='btn-group col-12' data-toggle='buttons' id='auto_high_goals_distance_div'>
+                    <label class='btn btn-lg btn-outline-secondary col-6'>
+						<input type='radio' name='auto_high_goals_distance' value='boiler'>Boiler
+						</label>
+                    <label class='btn btn-lg btn-outline-secondary col-6'>
+						<input type='radio' name='auto_high_goals_distance' value='ranged'>Ranged
+						</label>
+                </div>
+                <br> Low Goals
+                <div class="input-group input-group-lg">
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-success" type="button" onclick="increment(5,'auto_low_goals')">+5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 25%;">
+						<button class="btn btn-success" type="button" onclick="increment(20,'auto_low_goals')">+20</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='auto_low_goals' id='auto_low_goals' value='0' min='0' max='1000' />
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-danger" type="button" onclick="increment(-5,'auto_low_goals')">-5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 20%;">
+						<button class="btn btn-danger" type="button" onclick="increment(-1,'auto_low_goals')">-1</button>
+						</span>
+                </div>
+                <br>
+                <div class="container" align="center">
+                    <div class='col-xs-5' data-toggle='buttons'>
+                        <label class='btn btn-lg btn-outline-secondary btn-block'>
+							<input type='checkbox' id='auto_hoppers_triggered' data-toggle="tooltip" title="Click if the robot successfully triggered a hopper in autonomous. Record approximate balls collected into robot from hopper." data-trigger="focus">Hopper Triggered
+							</label>
+                    </div>
+                    <div class='col-xs-5' data-toggle='buttons'>
+                        <label class='btn btn-lg btn-outline-secondary btn-block'>
+							<input type='checkbox' id='auto_base_line_crossed' data-toggle="tooltip" title="The robot does not have to end auto on the base line." data-trigger="focus">Base Line Crossed
+							</label>
+                    </div>
+                </div>
+                <div hidden>
+                    <br> Total Fuel Directly Collected
+                    <input type='number' pattern="\d*" step='10' name='auto_fuel_from_hoppers' id='auto_fuel_from_hoppers' value='0' min='0' max='100' />
+                </div>
+                <!--change to number to add step-->
+                <br>
+            </div>
+        </div>
+    </div>
+    <h2 id="teleophref">Teleoperated</h2>
+    <br>
+    <div class='teleoperated'>
+        <div class="row">
+
+            <div class="col-sm-5">
+                <div id="appendable">
+                    <div id='gearScoringInput'>
+                        Gear Scoring 1:
+                        <select class='form-control' name='gear_scoring' id='gear_scoring'>
+                    <option selected>No Attempt</option>
+                    <option value='Drop'>Drop</option>
+                    <option value='Miss'>Miss</option>
+                    <option value='Score'>Score</option>
+                </select> Cycle Time
+                        <input type='number' class="form-control" name='gear_cycle_time' id='gear_cycle_time' placeholder='sec' min='0' max='150' />
+                        <br>
+                    </div>
+                </div>
+                <div>
+                    <input class="btn btn-primary btn-block" type="button" value="Add Gear" onClick="addGearScoringInput('appendable');">
+                </div>
+            </div>
+            <br>
+
+            <br>
+            <div class="col-sm-7">
+                <h3 data-toggle="tooltip" title="Approximate number of goals successfully scored below. Record if they ever made a ranged shot and/or a boiler shot for high goals." data-trigger="focus">Shooting</h3>
+                High Goals
+                <div class="input-group input-group-lg">
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-lg btn-success" type="button" onclick="increment(1,'high_goals')">+1</button>
+						</span>
+                    <span class="input-group-btn" style="width: 25%;">
+						<button class="btn btn-lg btn-success" type="button" onclick="increment(10,'high_goals')">+10</button>
+						</span>
+                    <input type='text' class="form-control" pattern="\d*" name='high_goals' id='high_goals' value='0' min='0' max='1000' />
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-lg btn-danger" type="button" onclick="increment(-5,'high_goals')" >-5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 20%;">
+						<button class="btn btn-lg btn-danger" type="button" onclick="increment(-1,'high_goals')">-1</button>
+						</span>
+                </div>
+                <div id="high_goal_distance_div">
+                    <br> Shot Location
+                    <div class='btn-group btn-group-lg col-12' data-toggle='buttons'>
+                        <label class='btn btn-outline-secondary col-6'>
+						<input type='checkbox' id='high_goal_distance_boiler'>Boiler
+						</label>
+                        <label class='btn btn-outline-secondary col-6'>
+						<input type='checkbox' id='high_goal_distance_ranged'>Ranged
+						</label>
+                    </div>
+                    <br>
+                </div>
+                Low Goals
+                <div class="input-group input-group-lg">
+                    <span class="input-group-btn" style="width: 15%;"> 
+						<button class="btn btn-lg btn-success" type="button" onclick="increment(5,'low_goals')">+5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 25%;">
+						<button class="btn btn-lg btn-success" type="button" onclick="increment(20,'low_goals')">+20</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='low_goals' id='low_goals' value='0' min='0' max='1000' />
+                    <span class="input-group-btn" style="width: 15%;">
+						<button class="btn btn-lg btn-danger" type="button" onclick="increment(-5,'low_goals')">-5</button>
+						</span>
+                    <span class="input-group-btn" style="width: 20%;">
+						<button class="btn btn-lg btn-danger" type="button" onclick="increment(-1,'low_goals')">-1</button>
+						</span>
+                </div>
+                <br> Boiler Visits (high goals)
+                <div class="input-group input-group-lg" data-toggle="tooltip" title="Record how many times the robot went to the boiler to attempt high goals in teleop. This is an attempt to track cycle numbers." data-trigger="focus">
+                    <span class="input-group-btn">
+						<button class="btn btn-success" type="button" onclick="increment(1,'boiler_visits_high')">+</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='boiler_visits_high' id='boiler_visits_high' value='0' min='0' max='100' />
+                    <span class="input-group-btn">
+						<button class="btn btn-danger" type="button" onclick="increment(-1,'boiler_visits_high')">-</button>
+						</span>
+                </div>
+                <br> Boiler Visits (low goals)
+                <div class="input-group input-group-lg" data-toggle="tooltip" title="Record how many times the robot went to the boiler to attempt low goals in teleop." data-trigger="focus">
+                    <span class="input-group-btn">
+						<button class="btn btn-success" type="button" onclick="increment(1,'boiler_visits_low')">+</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='boiler_visits_low' id='boiler_visits_low' value='0' min='0' max='100' />
+                    <span class="input-group-btn">
+						<button class="btn btn-danger" type="button" onclick="increment(-1,'boiler_visits_low')">-</button>
+						</span>
+                </div>
+                <br> Hoppers
+                <div class="input-group" data-toggle="tooltip" title="Record the number of hoppers the robot activated during teleop." data-trigger="focus">
+                    <span class="input-group-addon">Number Triggered</span>
+                    <span class="input-group-btn">
+						<button class="btn btn btn-success" type="button" onclick="increment(1,'hoppers_triggered')">+1</button>
+						</span>
+                    <input class="form-control" type='text' pattern="\d*" name='hoppers_triggered' id='hoppers_triggered' value='0' min='0' max='5' />
+                    <span class="input-group-btn">
+						<button class="btn btn btn-danger" type="button" onclick="increment(-1,'hoppers_triggered')">-1</button>
+						</span>
+                </div>
+                <br Total Fuel Directly Collected>
+                <input hidden type='number' pattern="\d*" step='10' name='fuel_from_hoppers' id='fuel_from_hoppers' value='0' min='0' max='1000' />
+                <!--Changed to number to add step property-->
+                <h3>End Game</h3>
+                Climbing:
+                <div class="btn-group col-12" data-toggle='buttons'>
+                    <label class='btn btn-outline-secondary col-4' data-toggle="tooltip" title="Record if a robot tried to climb and if they scored. If they attempted, reference the map and choose where they climbed." data-trigger="focus">
+							<input type='radio' name='climbing_scoring' value='no attempt'>No Attempt
+						</label>
+                    <label class='btn btn-outline-danger col-4'>
+							<input type='radio' name='climbing_scoring' value='fail' id='climbing_fail'>Fail
+						</label>
+                    <label class='btn btn btn-outline-success col-4'>
+							<input type='radio' name='climbing_scoring' value='success' id='climbing_success'>Success
+						</label>
+                </div>
+                <!--add Special Rope to Pit Scouting-->
+                <div id='climb_location_div'>
+                    <br>
+                    <papaya>Climb Location: </papaya>
+                    <div class="btn-group btn-group-lg col-12" data-toggle="buttons">
+                        <label class="btn btn-outline-primary col-4">
+						<input type='radio' name='climb_location' value='1'>1
+					</label>
+                        <label class="btn btn-outline-primary col-4">
+						<input type='radio' name='climb_location' value='2'>2
+					</label>
+                        <label class="btn btn-outline-primary col-4">
+						<input type='radio' name='climb_location' value='3'>3
+					</label>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h2 id="robothref">Robot Ability</h2>
+    <div class='robot_ability row'>
+        <div class="col-md-5">
+            Defense
+            <div class="form-group">
+                <textarea class="form-control" name='defense' rows='7' cols='50' id='defense' placeholder='Defense Comments Here (if attempted)' data-toggle="tooltip" title="If defense was attempted, describe here. If not defense attempted, leave blank." data-trigger="focus"></textarea>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-7">
+            Fuel Intake:
+            <div class='btn-group col-12' data-toggle='buttons'>
+                <label class="btn btn-outline-secondary col-4" data-toggle="tooltip" title="Click all ways the robot intook fuel and gears during this specific match." data-trigger="focus">
+				<input type='checkbox' id='fuel_intake_feeder'>Feeder
+				</label>
+                <label class="btn btn-outline-secondary col-4">
+				<input type='checkbox' id='fuel_intake_ground'>Ground
+				</label>
+                <label class="btn btn-outline-secondary col-4">
+				<input type='checkbox' id='fuel_intake_hopper'>Hopper
+				</label>
+            </div>
+            <br> Gear Intake:
+            <div class='btn-group col-12' data-toggle='buttons'>
+                <label class="btn btn-outline-secondary col-6">
+					<input type='checkbox' id='gear_intake_feeder'>Feeder
+				</label>
+                <label class="btn btn-outline-secondary col-6">
+					<input type='checkbox' id='gear_intake_ground'>Ground
+				</label>
+            </div>
+            <br> Status
+            <div class='btn-group col-12' data-toggle='buttons'>
+                <label class="btn btn-outline-secondary col-6" data-toggle="tooltip" title="If RSL is not lit at any time during the match, the robot has died. Mark here. Describe in comments." data-trigger="focus">
+					<input type='checkbox' id='died'>Died (no light)
+				</label>
+                <label class="btn btn-outline-secondary col-6" data-toggle="tooltip" title="If RSL is solid for a time during the match, the robot has lost comms. Mark here, even if only temporarily. Describe in comments." data-trigger="focus">
+					<input type='checkbox' id='lost_comms'>No Comms (solid light)
+				</label>
+            </div>
+        </div>
+    </div>
+    <div class='comments'>
+        <h2 id="commenthref">Comments</h2>
+        <div class="form-group">
+            <textarea class="form-control" name='comments' id='comments' placeholder='Comments Here' rows='5' cols='50' data-toggle="tooltip" title="Any notable match comments, robot comments, penalties, etc." data-trigger="focus"></textarea>
+        </div>
+        <br>
+    </div>
+    <button class="btn btn-primary btn-block" onclick='writeNewPost()' data-toggle="tooltip" title="You cannot go back after submitting" data-trigger="focus">Submit</button>
+
+    <script>
+        hideUnnecessaryElements();
+        setTimeout(showTimer, 200);
+    </script>
+</body>
+<div class="navbar fixed-bottom this-thing" style="background-color: #000;" id="timer">
+    <style>
+        .container {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .timer {
+            padding: 10px;
+            background: linear-gradient(top, #222, #444);
+            overflow: hidden;
+            display: inline-block;
+            border: 7px solid #9b0000;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: inset 0 -2px 10px 1px rgba(0, 0, 0, 0.75), 0 5px 20px -10px rgba(0, 0, 0, 1);
+        }
+        
+        .cell {
+            /*Should only display 1 digit. Hence height = line height of .numbers
+		and width = width of .numbers*/
+            width: 0.60em;
+            height: 40px;
+            font-size: 50px;
+            overflow: hidden;
+            position: relative;
+            float: left;
+        }
+        
+        .numbers {
+            width: 0.6em;
+            line-height: 40px;
+            font-family: digital, arial, verdana;
+            text-align: center;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /*Styles for the controls*/
+        
+        #timer_controls {
+            margin-top: -5px;
+        }
+        
+        #timer_controls label {
+            cursor: pointer;
+            padding: 5px 20px;
+            background: #9b0000;
+            font-family: arial, verdana, tahoma;
+            font-size: 14px;
+            border-radius: 0 0 3px 3px;
+        }
+        
+        input[name="controls"] {
+            display: none;
+        }
+        /*Control code*/
+        
+        #stop:checked~.timer .numbers {
+            animation-play-state: paused;
+        }
+        
+        #start:checked~.timer .numbers {
+            animation-play-state: running;
+        }
+        
+        #reset:checked~.timer .numbers {
+            animation: none;
+        }
+        
+        .moveten {
+            /*The digits move but dont look good. We will use steps now
+		10 digits = 10 steps. You can now see the digits swapping instead of 
+		moving pixel-by-pixel*/
+            animation: moveten 1s steps(10, end) infinite;
+            /*By default animation should be paused*/
+            animation-play-state: paused;
+        }
+        
+        .movesix {
+            animation: movesix 1s steps(6, end) infinite;
+            animation-play-state: paused;
+        }
+        /*Now we need to sync the animation speed with time speed*/
+        /*One second per digit. 10 digits. Hence 10s*/
+        
+        .second {
+            animation-duration: 10s;
+        }
+        
+        .tensecond {
+            animation-duration: 60s;
+        }
+        /*60 times .second*/
+        
+        .milisecond {
+            animation-duration: 1s;
+        }
+        /*1/10th of .second*/
+        
+        .tenmilisecond {
+            animation-duration: 0.1s;
+        }
+        
+        .hundredmilisecond {
+            animation-duration: 0.01s;
+        }
+        
+        .minute {
+            animation-duration: 600s;
+        }
+        /*60 times .second*/
+        
+        .tenminute {
+            animation-duration: 3600s;
+        }
+        /*60 times .minute*/
+        
+        .hour {
+            animation-duration: 36000s;
+        }
+        /*60 times .minute*/
+        
+        .tenhour {
+            animation-duration: 360000s;
+        }
+        /*10 times .hour*/
+        
+        @keyframes moveten {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: -400px;
+            }
+            /*height = 40. digits = 10. hence -400 to move it completely to the top*/
+        }
+        
+        @keyframes movesix {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: -240px;
+            }
+            /*height = 40. digits = 6. hence -240 to move it completely to the top*/
+        }
+    </style>
+    <div class="container" id="timer">
+        <!-- time to add the controls -->
+        <input id="start" name="controls" type="radio" />
+        <input id="stop" name="controls" type="radio" />
+        <input id="reset" name="controls" type="radio" />
+        <div class="timer">
+            <div class="cell">
+                <div class="numbers minute moveten">0 1 2 3 4 5 6 7 8 9</div>
+            </div>
+            <div class="cell divider">
+                <div class="numbers">:</div>
+            </div>
+            <div class="cell">
+                <div class="numbers tensecond movesix">0 1 2 3 4 5 6</div>
+            </div>
+            <div class="cell">
+                <div class="numbers second moveten">0 1 2 3 4 5 6 7 8 9</div>
+            </div>
+            <div class="cell divider">
+                <div class="numbers">:</div>
+            </div>
+            <div class="cell">
+                <div class="numbers milisecond moveten">0 1 2 3 4 5 6 7 8 9</div>
+            </div>
+            <div class="cell">
+                <div class="numbers tenmilisecond moveten">0 1 2 3 4 5 6 7 8 9</div>
+            </div>
+        </div>
+        <!-- Lables for the controls -->
+        <div id="timer_controls">
+            <label for="start">Start</label>
+            <label for="stop">Stop</label>
+            <label for="reset">Reset</label>
+        </div>
+    </div>
+</div>
+
+</html>

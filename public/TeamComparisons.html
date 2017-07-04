@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+
+    <script src='initializeFirebase.js'></script>
+    <script src='TeamComparisons.js'></script>
+    <link rel='stylesheet' type='text/css' href='TeamComparisons.css' />
+
+    <script src="sorttable.js"></script>
+
+    <title>Team Comparisons</title>
+
+</head>
+
+<!-- Data
+
+Power Level - to be calculated by Sidd
+
+Official rankings - to be imported from TBA later
+
+Autonomous
+Average base line cross scored per match - add to interface, pie chart to individual teams
+Average gears scored per match
+Average high goals scored per match
+Total matches shot high goals at boiler
+Total matches shot high goals ranged
+Average low goals scored per match
+Average hoppers triggered per match
+
+Teleop
+Average gears scored per match
+Overall gear success rate percentage (success/drop+miss)
+Average gear cycle time
+Average high goals scored per match
+Total matches shot high goals at boiler
+Total matches shot high goals ranged
+Average low goals scored per match
+Average hoppers triggered per match
+Total matches climbed successfully at event / total matches tried to climb at event
+
+Intake
+Total matches intake fuel from feeder
+Total matches intake fuel from ground
+Total matches intake fuel from hopper
+Total matches intake gear from feeder
+Total matches intake gear from ground
+
+Died/Lost Comms
+Total matches died at event
+Total matches lost comms at event
+
+Matches played defense
+
+
+-->
+
+<body>
+
+    <div id="competition_select" class='col-sm-12'>
+        <select class='form-control' name='competition' id='competition' onchange='inputOtherCompetition(this.options[this.selectedIndex].value)'>
+                <option selected value='Select Competition'>Select Competition</option>
+                <option value='Palmetto'>Palmetto Regional</option>
+                <option value='Buckeye'>Buckeye Regional</option>
+                <option value='Other'>Other</option>
+            </select>
+        <div id='otherCompetitionInput'></div>
+    </div>
+
+    <div id='tableDiv'>
+        <table id='table' class='sortable table table-striped"' width=100%>
+            <thead class="thead-inverse">
+                <tr id="stats">
+                    <th>Team</th>
+                    <th>Power Level</th>
+                    <th>Rank</th>
+                    <th>Base Line</th>
+                    <!--Auto-->
+                    <th>Gears</th>
+                    <th>High Goals</th>
+                    <th>Total hg at boiler</th>
+                    <th>Total hg at ranged</th>
+                    <th>Low Goals</th>
+                    <th>Hoppers</th>
+                    <th>Gears</th>
+                    <!--Teleop-->
+                    <th>Gear Success</th>
+                    <th>Gear Cycle Time</th>
+                    <th>High Goals</th>
+                    <th>Total hg at boiler</th>
+                    <th>Total hg at ranged</th>
+                    <th>Low Goals</th>
+                    <th>Hoppers</th>
+                    <th>Climb Success</th>
+                    <th>Fuel Feeder</th>
+                    <!--Intake-->
+                    <th>Fuel Ground</th>
+                    <th>Fuel Hopper</th>
+                    <th>Gear Feeder</th>
+                    <th>Gear Ground</th>
+                    <th>Died</th>
+                    <!--Died/Lost Comms-->
+                    <th>Lost Comms</th>
+                    <th>Defense</th>
+                    <!--Defense-->
+                </tr>
+            </thead>
+            <tr id="sections">
+                <th colspan="27" scope="row"></th>
+            </tr>
+        </table>
+    </div>
+    <button class='btn btn-outline-secondary btn-block' onclick='fillChart();'>Fill Chart</button>
+    <!--Eventually remove button and have it auto load with next comp-->
+</body>
+
+</html>

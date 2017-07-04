@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+    <script src='initializeFirebase.js'></script>
+    <script src='TeamAnalysis.js'></script>
+    <link rel='stylesheet' type='text/css' href='TeamAnalysis.css' />
+    <script src='jsontree.js'></script>
+    <link href="jsontree.css" rel="stylesheet">
+
+    <title>2614 Team Analysis</title>
+
+    <script src="sorttable.js"></script>
+
+</head>
+
+<body>
+
+
+    <div class='row'>
+        <div class='col-sm-3'>
+            Competition
+            <select class='form-control' name='competition' id='competition' onchange='inputOtherCompetition(this.options[this.selectedIndex].value)'>
+                    <option selected>Select Competition</option>
+                    <option value='Palmetto'>Palmetto</option>
+                    <option value='Buckeye'>Buckeye</option>
+                    <option value='Other'>Other</option>
+                </select>
+            <div id='otherCompetitionInput'></div>
+        </div>
+        <div class='col-sm-3'>
+            Match Number
+            <input class='form-control' type='text' pattern="\d*" id='match_number' placeholder='1' min='1' max='200' />
+        </div>
+        <div class='col-sm-3'>
+            Team Number
+            <input class='form-control' type='text' pattern="\d*" id='team_number' placeholder='2614' min='0' max='10000' />
+        </div>
+        <div class='col-sm-3'>
+            <br>
+            <button class='btn btn-primary btn-block' type='button' onclick='runData()'>Graph</button>
+            <!--<button class='btn btn-primary btn-block' type='button' onclick='filterData()'>Filter</button>-->
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Autonomous Fuel</h2>
+            <canvas id="auto_fuel"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Teleop Fuel</h2>
+            <canvas id="teleop_fuel"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Total Hoppers Triggered</h2>
+            <canvas id="hoppers_triggered"></canvas>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Fuel Intake</h2>
+            <canvas id="intake_capabilities"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Teleop Gear Success</h2>
+            <canvas id="teleop_gear_success"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Auto Gear Success</h2>
+            <canvas id="auto_gear_success"></canvas>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Auto High Goal Distance</h2>
+            <canvas id="auto_high_goal_distance"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Teleop High Goal Distance</h2>
+            <canvas id="teleop_high_goal_distance"></canvas>
+        </div>
+        <div class='col-sm-4'>
+            <h2 class='lead'>Climbing</h2>
+            <canvas id="climbing_chart"></canvas>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-4'>
+            <h2>Other</h2>
+            <canvas id="other_chart"></canvas>
+            <br>
+        </div>
+        <div class='col-sm-4'>
+            <h2>Autonomous Base Line</h2>
+            <canvas id="base_line_chart"></canvas>
+            <br>
+        </div>
+        <div class='col-sm-4'>
+            <button class='btn btn-outline-secondary btn-block' onclick='toggle("rawData");'>JSON</button>
+            <div id='rawData'></div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-sm-12'>
+            <h2>Comments</h2>
+            <div id='commentsTable'></div>
+            <br>
+        </div>
+    </div>
+</body>
+
+</html>
